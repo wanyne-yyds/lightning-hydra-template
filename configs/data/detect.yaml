@@ -1,0 +1,45 @@
+_target_: src.data.detect_data_module.DetectDataModule
+train_dir: ${paths.data_dir}/Multi_Task_Dataset/images/train2017  # train images for object detection (relative to 'path')
+test_dir: ${paths.data_dir}/Multi_Task_Dataset/images/val2017  # test images for object detection (relative to 'path')
+task: "detect"  # detect, segment, classify, pose
+# rect: False  # rectangular training if mode='train' or rectangular validation if mode='val'
+# cache: False  # True/ram, disk or False. Use cache for data loading
+imgsz: 640
+num_workers: 2  # number of data loading workers
+pin_memory: True # pin_memory=True speeds up transfer to GPU but may increase memory usage
+batch_size: 8 # Needs to be divisible by the number of devices (e.g., if in a distributed setup)
+single_cls: False # train multi-class data as single-class
+split_dataset:
+    split_ratio:
+    - 0.5
+    - 0.5
+    enable: True
+    shuffle: True
+# Classes for all tasks
+names: 
+    0: "bike"
+    1: "bus"
+    2: "car"
+    3: "motor"
+    4: "person"
+    5: "rider"
+    6: "traffic light"
+    7: "traffic sign"
+    8: "train"
+    9: "truck"
+augmentation:
+    mosaic: 1.0  # image mosaic (probability)
+    mixup: 0.0  # image mixup (probability)
+    copy_paste: 0.0  # segment copy-paste (probability)
+    degrees: 0.0  # image rotation (+/- deg)
+    translate: 0.1  # image translation (+/- fraction)
+    scale: 0.5  # image scale (+/- gain)
+    shear: 0.0  # image shear (+/- deg)
+    perspective: 0.0  # image perspective (+/- fraction), range 0-0.001
+    fliplr: 0.5  # image flip left-right (probability)
+    hsv_h: 0.015  # image HSV-Hue augmentation (fraction)
+    hsv_s: 0.7  # image HSV-Saturation augmentation (fraction)
+    hsv_v: 0.4  # image HSV-Value augmentation (fraction)
+    flipud: 0.0  # image flip up-down (probability)
+    mask_ratio: 1  # mask downsample ratio (segment train only)
+    overlap_mask: True # masks should overlap during training (segment train only)
